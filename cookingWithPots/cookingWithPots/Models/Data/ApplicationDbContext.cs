@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using cookingWithPots.Models.Data.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 namespace cookingWithPots.Models.Data
 {
@@ -11,5 +12,13 @@ namespace cookingWithPots.Models.Data
         public DbSet<Ingredient> Ingredients => Set<Ingredient>();
         public DbSet<Instruction> Instructions => Set<Instruction>();
         public DbSet<Recipe> Recipes => Set<Recipe>();
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfiguration(new ConfigureRecipes());
+            modelBuilder.ApplyConfiguration(new ConfigureIngredients());
+            modelBuilder.ApplyConfiguration(new ConfigureInstructions());
+        }
     }
 }

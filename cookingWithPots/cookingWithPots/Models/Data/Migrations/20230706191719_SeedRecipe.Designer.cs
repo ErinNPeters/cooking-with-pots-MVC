@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using cookingWithPots.Models.Data;
 
@@ -11,9 +12,11 @@ using cookingWithPots.Models.Data;
 namespace cookingWithPots.Models.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230706191719_SeedRecipe")]
+    partial class SeedRecipe
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,38 +45,6 @@ namespace cookingWithPots.Models.Data.Migrations
                     b.HasIndex("RecipeId");
 
                     b.ToTable("Ingredients");
-
-                    b.HasData(
-                        new
-                        {
-                            IngredientId = 1,
-                            Content = "1 can Cream of Chicken Soup",
-                            RecipeId = 1
-                        },
-                        new
-                        {
-                            IngredientId = 2,
-                            Content = "1 can peas",
-                            RecipeId = 1
-                        },
-                        new
-                        {
-                            IngredientId = 3,
-                            Content = "1 can carrots",
-                            RecipeId = 1
-                        },
-                        new
-                        {
-                            IngredientId = 4,
-                            Content = "1 package refrigerated buscuits",
-                            RecipeId = 1
-                        },
-                        new
-                        {
-                            IngredientId = 5,
-                            Content = "4 boneless, skinless chicken breasts, chopped into bite size pieces",
-                            RecipeId = 1
-                        });
                 });
 
             modelBuilder.Entity("cookingWithPots.Models.Data.Instruction", b =>
@@ -96,20 +67,6 @@ namespace cookingWithPots.Models.Data.Migrations
                     b.HasIndex("RecipeId");
 
                     b.ToTable("Instructions");
-
-                    b.HasData(
-                        new
-                        {
-                            InstructionId = 1,
-                            Content = "Place chicken pieces in slow cooker. Pour soup over chicken. Drain peas and carrots, then add those to slow cooker. Cook for 4 hours.",
-                            RecipeId = 1
-                        },
-                        new
-                        {
-                            InstructionId = 2,
-                            Content = "Bake biscuits according to package directions. Spoon chicken and vegetable mixture over biscuits and serve.",
-                            RecipeId = 1
-                        });
                 });
 
             modelBuilder.Entity("cookingWithPots.Models.Data.Recipe", b =>
