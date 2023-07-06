@@ -8,7 +8,7 @@ using cookingWithPots.Models.Data;
 
 #nullable disable
 
-namespace cookingWithPots.Models.Data
+namespace cookingWithPots.Models.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot

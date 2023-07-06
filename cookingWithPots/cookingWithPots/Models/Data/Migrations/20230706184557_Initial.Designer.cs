@@ -12,7 +12,7 @@ using cookingWithPots.Models.Data;
 namespace cookingWithPots.Models.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230706140514_Initial")]
+    [Migration("20230706184557_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
