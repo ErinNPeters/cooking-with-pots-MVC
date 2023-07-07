@@ -2,17 +2,3 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
-$(document).ready(function(){
-    if($("#HomePage").length){
-    getRecipeOfTheDay();
-}
-});
-
-function getRecipeOfTheDay() {
-    $.ajax({
-        url: "/Recipe/RecipeOfTheDay",
-        success: function (view) {
-            $("#RecipeOfTheDay").html(view);
-        }
-    });
-}
