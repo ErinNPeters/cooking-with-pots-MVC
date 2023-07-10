@@ -6,16 +6,19 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using cookingWithPots.Models.Data;
+using cookingWithPots.Models.Repositories;
 
 namespace cookingWithPots.Controllers
 {
     public class RecipesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IRecipeRepository _recipeRepository;
 
-        public RecipesController(ApplicationDbContext context)
+        public RecipesController(ApplicationDbContext context, IRecipeRepository recipeRepository)
         {
             _context = context;
+            _recipeRepository = recipeRepository;
         }
 
         [HttpGet("/Recipe/RecipeOfTheDay")]
@@ -47,8 +50,7 @@ namespace cookingWithPots.Controllers
                 return NotFound();
             }
 
-            var recipe = await _context.Recipes
-                .FirstOrDefaultAsync(m => m.RecipeId == id);
+            var recipe = await _recipeRepository.GetRecipeWithLists(id.Value);
             if (recipe == null)
             {
                 return NotFound();

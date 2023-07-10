@@ -1,4 +1,5 @@
 using cookingWithPots.Models.Data;
+using cookingWithPots.Models.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 var dbConnection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(dbConnection));
-
+builder.Services.AddScoped(typeof(IRecipeRepository), typeof(RecipeRepository));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
