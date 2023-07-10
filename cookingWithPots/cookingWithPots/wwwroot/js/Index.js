@@ -1,5 +1,6 @@
 ﻿$(document).ready(function(){
     getRecipeOfTheDay();
+    $("#AddBtn").on("click", goToAdd);
 });
 
 function getRecipeOfTheDay() {
@@ -20,5 +21,10 @@ function goToEdit() {
 
 function goToView() {
     var url = 'Recipes/Details/' + $('#RecipeId')[0].value;
+    window.location.href = url;
+}
+
+function goToAdd() {
+    var url = 'Recipes/Create/';
     window.location.href = url;
 }
