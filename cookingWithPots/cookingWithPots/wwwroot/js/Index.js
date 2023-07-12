@@ -25,6 +25,6 @@ function goToView() {
 }
 
 function goToAdd() {
-    var url = 'Recipes/Create/';
+    var url = 'Recipes/Edit/';
     window.location.href = url;
 }
