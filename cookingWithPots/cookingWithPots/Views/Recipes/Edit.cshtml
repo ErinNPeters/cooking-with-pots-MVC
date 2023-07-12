@@ -1,0 +1,64 @@
+﻿@model cookingWithPots.Models.Dto.RecipeDto
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>Recipe</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="RecipeId" />
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Does this recipe use a slow cooker (crock pot)? </label>
+                <br />
+                <select asp-for="SlowCooker" class="form-control">
+                    <option value="True">Yes</option>
+                    <option value="False">No</option>
+                    </select>
+                <span asp-validation-for="SlowCooker" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Ingredients: Please separate ingredients with a line break.</label>
+                <textarea rows="10"  asp-for="IngredientsNotParsed" class="form-control"> </textarea>
+                <span asp-validation-for="IngredientsNotParsed" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Instructions: Please separate each step with a line break.</label>
+                <textarea rows="10" asp-for="InstructionsNotParsed" class="form-control"> </textarea>
+                <span asp-validation-for="InstructionsNotParsed" class="text-danger"></span>
+            </div>
+
+
+            <br/>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

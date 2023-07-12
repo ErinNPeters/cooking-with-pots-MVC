@@ -1,0 +1,50 @@
+﻿@model IEnumerable<cookingWithPots.Models.Data.Recipe>
+
+@{
+    ViewData["Title"] = "All Recipes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>All Recipes</h2>
+
+<p>
+    <a class="btn btn-primary" asp-action="Edit">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                Uses Slow Cooker
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @if(item.SlowCooker.HasValue && item.SlowCooker.Value == true)
+                    { <p>Yes</p> }
+                </td>
+                <td>
+                    <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.RecipeId">Edit</a>
+                    <a class="btn btn-info" asp-action="Details" asp-route-id="@item.RecipeId">Details</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.RecipeId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,26 @@
+﻿@model cookingWithPots.Models.Data.Recipe
+
+<h3 class="card card-header">Recipe of the day</h3>
+
+<div class="card card-body">
+    <dl class="row">
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+    </dl>
+    @Html.HiddenFor(x => x.RecipeId)
+    <div class="row">
+        <button id="ViewBtn" type="button" class="btn btn-info col-sm-3">View</button>
+        <div class="col-sm-1"></div>
+        <button id="EditBtn" type="button" class="btn btn-secondary col-sm-3">Edit</button>
+    </div>
+</div>

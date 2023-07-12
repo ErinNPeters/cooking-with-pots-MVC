@@ -11,5 +11,9 @@ namespace cookingWithPots.Models.Data
         [ForeignKey(nameof(Recipe))]
         public int RecipeId { get; set; }
         public string Content { get; set; }
+
+        [ForeignKey("RecipeId")]
+        [InverseProperty("Instructions")]
+        public virtual Recipe Recipe { get; set; } = null!;
     }
 }
