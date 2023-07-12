@@ -20,6 +20,7 @@ namespace cookingWithPots.Models.Dto
         {
             var recipe = new Recipe
             {
+                RecipeId = RecipeId,
                 Title = Title,
                 Description = Description,
                 SlowCooker = SlowCooker,
@@ -27,17 +28,36 @@ namespace cookingWithPots.Models.Dto
                 Instructions = new List<Instruction>()
             };
 
-            var ingredientsList = IngredientsNotParsed.Split(new string[] { Environment.NewLine, "\\n", "/n", "\n" }, StringSplitOptions.None);
+            var ingredientsList = IngredientsNotParsed.Split(new string[] { Environment.NewLine, "\\n", "/n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var ingredient in ingredientsList)
             {
                 recipe.Ingredients.Add(new Ingredient { Content = ingredient });
             }
-            var stepList = InstructionsNotParsed.Split(new string[] { Environment.NewLine, "\\n", "/n", "\n" }, StringSplitOptions.None);
+            var stepList = InstructionsNotParsed.Split(new string[] { Environment.NewLine, "\\n", "/n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var step in stepList)
             {
                 recipe.Instructions.Add(new Instruction { Content = step });
             }
             return recipe;
+        }
+
+        public RecipeDto() { }
+
+        public RecipeDto(Recipe recipe)
+        {
+            RecipeId = recipe.RecipeId;
+            Title = recipe.Title;
+            Description = recipe.Description;
+            SlowCooker = recipe.SlowCooker;
+
+            foreach (var ing in recipe.Ingredients)
+            {
+                IngredientsNotParsed += ing.Content + Environment.NewLine;
+            }
+            foreach (var inst in recipe.Instructions)
+            {
+                InstructionsNotParsed += inst.Content + Environment.NewLine;
+            }
         }
     }
 }

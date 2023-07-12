@@ -73,12 +73,12 @@ namespace cookingWithPots.Controllers
                 return NotFound();
             }
 
-            var recipe = await _context.Recipes.FindAsync(id);
+            var recipe = await _recipeRepository.GetRecipeWithLists(id.Value);
             if (recipe == null)
             {
                 return NotFound();
             }
-            return View(recipe);
+            return View(new RecipeDto(recipe));
         }
         // POST: Recipes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -97,7 +97,7 @@ namespace cookingWithPots.Controllers
                     }
                     else
                     {
-                        _context.Update(recipeDto.GetRecipeWithLists());
+                        _recipeRepository.SaveRecipeAll(recipeDto.GetRecipeWithLists());
                     }
                     await _context.SaveChangesAsync();
                 }
