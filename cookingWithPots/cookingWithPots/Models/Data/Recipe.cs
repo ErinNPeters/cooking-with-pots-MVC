@@ -18,5 +18,10 @@ namespace cookingWithPots.Models.Data
 
         public ICollection<Ingredient> Ingredients { get; set;}
         public ICollection<Instruction> Instructions { get; set;}
+
+        [NotMapped]
+        public string IngredientsNotParsed { get; set; }
+        [NotMapped]
+        public string InstructionsNotParsed { get; set; }
     }
 }
