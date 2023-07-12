@@ -16,12 +16,10 @@ namespace cookingWithPots.Models.Data
         public string Description { get; set; }
         public bool? SlowCooker { get; set; }
 
+        [InverseProperty("Recipe")]
         public ICollection<Ingredient> Ingredients { get; set;}
+        [InverseProperty("Recipe")]
         public ICollection<Instruction> Instructions { get; set;}
 
-        [NotMapped]
-        public string IngredientsNotParsed { get; set; }
-        [NotMapped]
-        public string InstructionsNotParsed { get; set; }
     }
 }

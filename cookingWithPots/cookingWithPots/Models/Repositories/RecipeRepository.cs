@@ -32,5 +32,26 @@ namespace cookingWithPots.Models.Repositories
 
             return await query.FirstOrDefaultAsync();
         }
+
+        //public async Task<Recipe> AddRecipeWithLists(Recipe recipe)
+        //{
+        //    using (var transaction = await _context.Database.BeginTransactionAsync())
+        //    {
+        //        try
+        //        {
+        //            _context.Recipes.Add(recipe);
+        //            _context.SaveChanges();
+
+        //            foreach()
+
+        //            await transaction.CommitAsync();
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            await transaction.RollbackAsync();
+        //        }
+        //    }
+        //    return recipe;
+        //}
     }
 }

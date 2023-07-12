@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using cookingWithPots.Models.Data;
 using cookingWithPots.Models.Repositories;
+using cookingWithPots.Models.Dto;
 
 namespace cookingWithPots.Controllers
 {
@@ -64,7 +65,7 @@ namespace cookingWithPots.Controllers
         {
             if (id == null)
             {
-                return View(new Recipe { RecipeId = 0 });
+                return View(new RecipeDto { RecipeId = 0 });
             }
 
             if (id == null || _context.Recipes == null)
@@ -84,23 +85,25 @@ namespace cookingWithPots.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RecipeId,Title,Description,SlowCooker,IngredientsNotParsed,InstructionsNotParsed")] Recipe recipe)
+        public async Task<IActionResult> Edit([Bind("RecipeId,Title,Description,SlowCooker,IngredientsNotParsed,InstructionsNotParsed")] RecipeDto recipeDto)
         {
-            if (id != recipe.RecipeId)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(recipe);
+                    if(recipeDto.RecipeId == 0)
+                    {
+                        _context.Add(recipeDto.GetRecipeWithLists());
+                    }
+                    else
+                    {
+                        _context.Update(recipeDto.GetRecipeWithLists());
+                    }
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RecipeExists(recipe.RecipeId))
+                    if (!RecipeExists(recipeDto.RecipeId))
                     {
                         return NotFound();
                     }
@@ -111,7 +114,7 @@ namespace cookingWithPots.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(recipe);
+            return View(recipeDto);
         }
 
         // GET: Recipes/Delete/5
