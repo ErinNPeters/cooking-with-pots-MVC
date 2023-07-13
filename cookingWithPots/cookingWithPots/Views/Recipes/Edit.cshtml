@@ -4,10 +4,14 @@
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Edit</h1>
-
-<h4>Recipe</h4>
+@if(Model.RecipeId == 0)
+{
+    <h2>Add Recipe</h2>
+}
+else
+{
+    <h2>Edit Recipe</h2>
+}
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -54,9 +58,9 @@
         </form>
     </div>
 </div>
-
+<br/>
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-success" asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
