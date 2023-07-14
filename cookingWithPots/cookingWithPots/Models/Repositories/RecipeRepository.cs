@@ -70,6 +70,7 @@ namespace cookingWithPots.Models.Repositories
                         {
                             RecipeId = recipes.RecipeId,
                             Title = recipes.Title,
+                            Description = recipes.Description,
                             SlowCooker = recipes.SlowCooker,
                             Ingredients = ingredientsSet.Where(i => i.RecipeId == recipes.RecipeId).ToList(),
                             Instructions = instructionsSet.Where(i => i.RecipeId == recipes.RecipeId).ToList(),
