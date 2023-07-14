@@ -35,12 +35,19 @@ namespace cookingWithPots.Controllers
             return PartialView("DetailsPartial", recipe);
         }
 
-        // GET: Recipes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(RecipeListAndSearchCriteriaDto? dto = null)
         {
-              return _context.Recipes != null ? 
-                          View(await _context.Recipes.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Recipes'  is null.");
+            var recipes = new List<Recipe>();
+            if(dto.searchCriteriaDto == null && dto.Recipes.Count == 0)
+            {
+                recipes = await _context.Recipes.ToListAsync();
+            }
+            else
+            {
+                recipes = await _recipeRepository.GetRecipeAllSearch(dto.searchCriteriaDto);
+            }
+            dto = new RecipeListAndSearchCriteriaDto(recipes);
+            return View(dto);
         }
 
         // GET: Recipes/Details/5

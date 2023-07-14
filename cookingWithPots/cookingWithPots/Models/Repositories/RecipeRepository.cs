@@ -1,4 +1,5 @@
 ﻿using cookingWithPots.Models.Data;
+using cookingWithPots.Models.Dto;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
 
@@ -57,5 +58,37 @@ namespace cookingWithPots.Models.Repositories
             }
 
         }
+
+        public async Task<List<Recipe>> GetRecipeAllSearch(RecipeSearchCriteriaDto criteria)
+        {
+            var recipesSet = _context.Recipes;
+            var ingredientsSet = _context.Ingredients;
+            var instructionsSet = _context.Instructions;
+
+            var query = from recipes in recipesSet
+                        select new Recipe
+                        {
+                            RecipeId = recipes.RecipeId,
+                            Title = recipes.Title,
+                            SlowCooker = recipes.SlowCooker,
+                            Ingredients = ingredientsSet.Where(i => i.RecipeId == recipes.RecipeId).ToList(),
+                            Instructions = instructionsSet.Where(i => i.RecipeId == recipes.RecipeId).ToList(),
+                        };
+
+            if (!string.IsNullOrWhiteSpace(criteria.SearchTerms))
+            {
+                query = query.Where(entity => entity.Title.ToLower().Contains(criteria.SearchTerms) || entity.Ingredients.Any(i => i.Content.ToLower().Contains(criteria.SearchTerms))
+                                                                      || entity.Instructions.Any(s => s.Content.ToLower().Contains(criteria.SearchTerms)));
+            }
+
+            if(criteria.SlowCooker.HasValue && criteria.SlowCooker.Value)
+            {
+                query = query.Where(entity => entity.SlowCooker.HasValue && entity.SlowCooker.Value);
+            }
+
+            return await query.ToListAsync();
+
+        }
+
     }
 }

@@ -50,13 +50,19 @@ namespace cookingWithPots.Models.Dto
             Description = recipe.Description;
             SlowCooker = recipe.SlowCooker;
 
-            foreach (var ing in recipe.Ingredients)
+            if (recipe.Ingredients != null)
             {
-                IngredientsNotParsed += ing.Content + Environment.NewLine;
+                foreach (var ing in recipe.Ingredients)
+                {
+                    IngredientsNotParsed += ing.Content + Environment.NewLine;
+                }
             }
-            foreach (var inst in recipe.Instructions)
+            if (recipe.Instructions != null)
             {
-                InstructionsNotParsed += inst.Content + Environment.NewLine;
+                foreach (var inst in recipe.Instructions)
+                {
+                    InstructionsNotParsed += inst.Content + Environment.NewLine;
+                }
             }
         }
     }
