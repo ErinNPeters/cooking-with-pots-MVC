@@ -1,23 +1,44 @@
-﻿@model IEnumerable<cookingWithPots.Models.Data.Recipe>
-
+﻿@model cookingWithPots.Models.Dto.RecipeListAndSearchCriteriaDto
 @{
     ViewData["Title"] = "All Recipes";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>All Recipes</h2>
+<h2>Search Recipes</h2>
+<br />
 
-<p>
-    <a class="btn btn-primary" asp-action="Edit">Create New</a>
-</p>
+<form asp-action="Index">
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label>Search by recipe title, description or ingredients</label>
+            <input asp-for="searchCriteriaDto.SearchTerms" class="form-control" />
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Show only recipes that use a slow cooker (crock pot)? </label>
+            <br />
+            <select asp-for="searchCriteriaDto.SlowCooker" class="form-control">
+                <option value="False">No</option>
+                <option value="True">Yes</option>
+            </select>
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <input type="submit" value="Search" class="btn btn-primary" />
+    </div>
+
+</form>
+
+<br />
+<br />
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                Title
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                Description
             </th>
             <th>
                 Uses Slow Cooker
@@ -26,7 +47,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Recipes)
         {
             <tr>
                 <td>
@@ -36,8 +57,10 @@
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td>
-                    @if(item.SlowCooker.HasValue && item.SlowCooker.Value == true)
-                    { <p>Yes</p> }
+                    @if (item.SlowCooker.HasValue && item.SlowCooker.Value == true)
+                    {
+                        <p>Yes</p>
+                    }
                 </td>
                 <td>
                     <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.RecipeId">Edit</a>
