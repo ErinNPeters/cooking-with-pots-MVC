@@ -4,7 +4,7 @@
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@if(Model.RecipeId == 0)
+@if (Model.RecipeId == 0)
 {
     <h2>Add Recipe</h2>
 }
@@ -15,7 +15,7 @@ else
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="RecipeId" />
             <div class="form-group">
@@ -34,13 +34,13 @@ else
                 <select asp-for="SlowCooker" class="form-control">
                     <option value="True">Yes</option>
                     <option value="False">No</option>
-                    </select>
+                </select>
                 <span asp-validation-for="SlowCooker" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label>Ingredients: Please separate ingredients with a line break.</label>
-                <textarea rows="10"  asp-for="IngredientsNotParsed" class="form-control"> </textarea>
+                <textarea rows="10" asp-for="IngredientsNotParsed" class="form-control"> </textarea>
                 <span asp-validation-for="IngredientsNotParsed" class="text-danger"></span>
             </div>
 
@@ -49,20 +49,47 @@ else
                 <textarea rows="10" asp-for="InstructionsNotParsed" class="form-control"> </textarea>
                 <span asp-validation-for="InstructionsNotParsed" class="text-danger"></span>
             </div>
+            <br />
 
+            <div class="form-group">
+                @if (Model.ImageBytes != null && Model.ImageBytes.Length > 0)
+                {
+                    <label>Current Image:</label>
+                    <img alt="@Model.Title" src="data:image;base64,@System.Convert.ToBase64String(Model.ImageBytes)" width="250" height="250" />
+                    <br />
+                    <br />
+                    <label>Delete Image?</label>
+                    <input asp-for="DeleteImage" type="checkbox">
+                    <br />
 
-            <br/>
+                    <br />
+                    <label>Replace Image:</label>
+                    <span asp-validation-for="FileName" class="text-danger"></span>
+                }
+                else {
+                    <label>Add an image:</label>
+                    <span asp-validation-for="FileName" class="text-danger"></span>
+                }
+                <br />
+                <input id="image-input" asp-for="ImageFile" type="file" />
+                <br />
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
+
+            <br />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
-<br/>
+<br />
 <div>
     <a class="btn btn-success" asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

@@ -21,5 +21,11 @@ namespace cookingWithPots.Models.Data
         [InverseProperty("Recipe")]
         public ICollection<Instruction> Instructions { get; set;}
 
+        [InverseProperty("Recipe")]
+        public Image? Image { get; set; }
+
+        [NotMapped]
+        public bool DeleteImage { get; set; }
+
     }
 }

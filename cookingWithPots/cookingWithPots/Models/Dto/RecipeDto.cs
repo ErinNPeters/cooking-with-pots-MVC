@@ -1,6 +1,7 @@
 ﻿using cookingWithPots.Models.Data;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace cookingWithPots.Models.Dto
 {
@@ -13,8 +14,29 @@ namespace cookingWithPots.Models.Dto
         public string Description { get; set; }
         public bool? SlowCooker { get; set; }
 
+        [DisplayName("Ingredients")]
         public string IngredientsNotParsed { get; set; }
+        [DisplayName("Instructions")]
         public string InstructionsNotParsed { get; set; }
+        public IFormFile? ImageFile { get; set; }
+        public byte[]? ImageBytes { get; set; }
+        public bool DeleteImage { get; set; }
+
+        [FileExtensions(Extensions = "jpg,jpeg,png,gif", ErrorMessage = "Please use an accepted image extension: jpg, jpeg, png, gif.")]
+        public string FileName
+        {
+            get
+            {
+                if (ImageFile == null)
+                {
+                    return "save.jpg";
+                }
+                else
+                {
+                    return ImageFile.FileName;
+                }
+            }
+        }
 
         public Recipe GetRecipeWithLists()
         {
@@ -25,7 +47,8 @@ namespace cookingWithPots.Models.Dto
                 Description = Description,
                 SlowCooker = SlowCooker,
                 Ingredients = new List<Ingredient>(),
-                Instructions = new List<Instruction>()
+                Instructions = new List<Instruction>(),
+                DeleteImage = DeleteImage
             };
 
             var ingredientsList = IngredientsNotParsed.Split(new string[] { Environment.NewLine, "\\n", "/n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
@@ -38,6 +61,18 @@ namespace cookingWithPots.Models.Dto
             {
                 recipe.Instructions.Add(new Instruction { Content = step });
             }
+
+            if (ImageFile != null && ImageFile.Length > 0)
+            {
+                using (var fileStream = ImageFile.OpenReadStream())
+                {
+                    byte[] imageBytes = new byte[fileStream.Length];
+                    fileStream.Read(imageBytes, 0, imageBytes.Length);
+                    recipe.Image = new Image();
+                    recipe.Image.ImageData = imageBytes;
+                }
+            }
+
             return recipe;
         }
 
@@ -63,6 +98,10 @@ namespace cookingWithPots.Models.Dto
                 {
                     InstructionsNotParsed += inst.Content + Environment.NewLine;
                 }
+            }
+            if (recipe.Image != null && recipe.Image.ImageData.Length > 0)
+            {
+                ImageBytes = recipe.Image.ImageData;
             }
         }
     }

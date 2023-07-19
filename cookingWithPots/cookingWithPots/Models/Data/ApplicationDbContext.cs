@@ -12,6 +12,7 @@ namespace cookingWithPots.Models.Data
         public DbSet<Ingredient> Ingredients => Set<Ingredient>();
         public DbSet<Instruction> Instructions => Set<Instruction>();
         public DbSet<Recipe> Recipes => Set<Recipe>();
+        public DbSet<Image> Image => Set<Image>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

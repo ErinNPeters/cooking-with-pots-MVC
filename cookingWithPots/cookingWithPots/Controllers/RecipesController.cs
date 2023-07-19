@@ -92,7 +92,7 @@ namespace cookingWithPots.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([Bind("RecipeId,Title,Description,SlowCooker,IngredientsNotParsed,InstructionsNotParsed")] RecipeDto recipeDto)
+        public async Task<IActionResult> Edit([Bind("RecipeId,Title,Description,SlowCooker,IngredientsNotParsed,InstructionsNotParsed,ImageFile,DeleteImage")] RecipeDto recipeDto)
         {
             if (ModelState.IsValid)
             {
