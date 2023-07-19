@@ -52,7 +52,17 @@ else
             <br />
 
             <div class="form-group">
-                <label>Picture:</label>   
+                @if (Model.ImageBytes != null && Model.ImageBytes.Length > 0)
+                {
+                    <label>Current Image:</label>
+                    <img alt="@Model.Title" src="data:image;base64,@System.Convert.ToBase64String(Model.ImageBytes)" width="250" height="250" />
+                    <br />
+                    <br />
+                    <label>Replace Image:</label>
+                }
+                else {
+                    <label>Add an image:</label>
+                }
                 <br />
                 <input id="image-input" asp-for="ImageFile" type="file" />
                 <br />
