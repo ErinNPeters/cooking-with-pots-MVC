@@ -52,8 +52,11 @@ else
             <br />
 
             <div class="form-group">
-                <label>Picture:</label>   <br />
+                <label>Picture:</label>   
+                <br />
                 <input id="image-input" asp-for="ImageFile" type="file" />
+                <br />
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
             </div>
 
             <br />

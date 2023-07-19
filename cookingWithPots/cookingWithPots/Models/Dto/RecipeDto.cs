@@ -1,6 +1,7 @@
 ﻿using cookingWithPots.Models.Data;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace cookingWithPots.Models.Dto
 {
@@ -13,10 +14,13 @@ namespace cookingWithPots.Models.Dto
         public string Description { get; set; }
         public bool? SlowCooker { get; set; }
 
+        [DisplayName("Ingredients")]
         public string IngredientsNotParsed { get; set; }
+        [DisplayName("Instructions")]
         public string InstructionsNotParsed { get; set; }
 
-        public IFormFile ImageFile { get; set; }
+        [FileExtensions(Extensions ="jpg,jpeg,png,gif", ErrorMessage = "Please use an accepted image extension: jpg, jpeg, png, gif.")]
+        public IFormFile? ImageFile { get; set; }
 
         public Recipe GetRecipeWithLists()
         {
@@ -28,6 +32,7 @@ namespace cookingWithPots.Models.Dto
                 SlowCooker = SlowCooker,
                 Ingredients = new List<Ingredient>(),
                 Instructions = new List<Instruction>()
+                //Image = ImageFile
             };
 
             var ingredientsList = IngredientsNotParsed.Split(new string[] { Environment.NewLine, "\\n", "/n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
