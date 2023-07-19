@@ -29,7 +29,7 @@ namespace cookingWithPots.Models.Dto
             {
                 if (ImageFile == null)
                 {
-                    return string.Empty;
+                    return "save.jpg";
                 }
                 else
                 {
