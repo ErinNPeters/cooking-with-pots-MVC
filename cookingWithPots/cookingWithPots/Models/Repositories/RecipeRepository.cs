@@ -18,6 +18,7 @@ namespace cookingWithPots.Models.Repositories
             var recipesSet = _context.Recipes;
             var ingredientsSet = _context.Ingredients;
             var InstructionsSet = _context.Instructions;
+            var ImageSet = _context.Image;
 
             var query = from recipes in recipesSet
                         where recipes.RecipeId == id
@@ -29,6 +30,7 @@ namespace cookingWithPots.Models.Repositories
                             SlowCooker = recipes.SlowCooker,
                             Ingredients = ingredientsSet.Where(i => i.RecipeId == id).ToList(),
                             Instructions = InstructionsSet.Where(i => i.RecipeId == id).ToList(),
+                            Image = ImageSet.Where(i => i.RecipeId ==id).FirstOrDefault()
                         };
 
             return await query.FirstOrDefaultAsync();
@@ -45,6 +47,12 @@ namespace cookingWithPots.Models.Repositories
                     _context.RemoveRange(ingredientsToRemove);
                     var instructionsToRemove = _context.Instructions.Where(r => r.RecipeId == recipe.RecipeId).ToList();
                     _context.RemoveRange(instructionsToRemove);
+
+                    if(recipe.Image != null && recipe.Image.ImageData.Length > 0)
+                    {
+                        var imagesToRemove = _context.Image.Where(r => r.RecipeId == recipe.RecipeId).ToList();
+                        _context.RemoveRange(imagesToRemove);
+                    }
 
                     _context.Recipes.Update(recipe);
                     _context.SaveChanges();

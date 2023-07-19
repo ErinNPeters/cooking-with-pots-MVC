@@ -19,8 +19,9 @@ namespace cookingWithPots.Models.Dto
         [DisplayName("Instructions")]
         public string InstructionsNotParsed { get; set; }
 
-        [FileExtensions(Extensions ="jpg,jpeg,png,gif", ErrorMessage = "Please use an accepted image extension: jpg, jpeg, png, gif.")]
+       // [FileExtensions(Extensions ="jpg,jpeg,png,gif,JPG,JPEG,PNG,GIF", ErrorMessage = "Please use an accepted image extension: jpg, jpeg, png, gif.")]
         public IFormFile? ImageFile { get; set; }
+        public byte[]? ImageBytes { get; set; }
 
         public Recipe GetRecipeWithLists()
         {
@@ -31,8 +32,7 @@ namespace cookingWithPots.Models.Dto
                 Description = Description,
                 SlowCooker = SlowCooker,
                 Ingredients = new List<Ingredient>(),
-                Instructions = new List<Instruction>()
-                //Image = ImageFile
+                Instructions = new List<Instruction>(),
             };
 
             var ingredientsList = IngredientsNotParsed.Split(new string[] { Environment.NewLine, "\\n", "/n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
@@ -45,6 +45,18 @@ namespace cookingWithPots.Models.Dto
             {
                 recipe.Instructions.Add(new Instruction { Content = step });
             }
+
+            if(ImageFile != null && ImageFile.Length > 0)
+            {
+                using (var fileStream = ImageFile.OpenReadStream())
+                {
+                    byte[] imageBytes = new byte[fileStream.Length];
+                    fileStream.Read(imageBytes, 0, imageBytes.Length);
+                    recipe.Image = new Image();
+                    recipe.Image.ImageData = imageBytes;
+                }
+            }
+
             return recipe;
         }
 
@@ -70,6 +82,10 @@ namespace cookingWithPots.Models.Dto
                 {
                     InstructionsNotParsed += inst.Content + Environment.NewLine;
                 }
+            }
+            if(recipe.Image != null && recipe.Image.ImageData.Length > 0)
+            {
+                ImageBytes = recipe.Image.ImageData;
             }
         }
     }
