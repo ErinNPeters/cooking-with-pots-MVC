@@ -64,9 +64,11 @@ else
 
                     <br />
                     <label>Replace Image:</label>
+                    <span asp-validation-for="FileName" class="text-danger"></span>
                 }
                 else {
                     <label>Add an image:</label>
+                    <span asp-validation-for="FileName" class="text-danger"></span>
                 }
                 <br />
                 <input id="image-input" asp-for="ImageFile" type="file" />

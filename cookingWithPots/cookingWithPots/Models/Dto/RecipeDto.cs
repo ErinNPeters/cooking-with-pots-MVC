@@ -18,11 +18,25 @@ namespace cookingWithPots.Models.Dto
         public string IngredientsNotParsed { get; set; }
         [DisplayName("Instructions")]
         public string InstructionsNotParsed { get; set; }
-
-       // [FileExtensions(Extensions ="jpg,jpeg,png,gif,JPG,JPEG,PNG,GIF", ErrorMessage = "Please use an accepted image extension: jpg, jpeg, png, gif.")]
         public IFormFile? ImageFile { get; set; }
         public byte[]? ImageBytes { get; set; }
         public bool DeleteImage { get; set; }
+
+        [FileExtensions(Extensions = "jpg,jpeg,png,gif", ErrorMessage = "Please use an accepted image extension: jpg, jpeg, png, gif.")]
+        public string FileName
+        {
+            get
+            {
+                if (ImageFile == null)
+                {
+                    return string.Empty;
+                }
+                else
+                {
+                    return ImageFile.FileName;
+                }
+            }
+        }
 
         public Recipe GetRecipeWithLists()
         {
@@ -48,7 +62,7 @@ namespace cookingWithPots.Models.Dto
                 recipe.Instructions.Add(new Instruction { Content = step });
             }
 
-            if(ImageFile != null && ImageFile.Length > 0)
+            if (ImageFile != null && ImageFile.Length > 0)
             {
                 using (var fileStream = ImageFile.OpenReadStream())
                 {
@@ -85,7 +99,7 @@ namespace cookingWithPots.Models.Dto
                     InstructionsNotParsed += inst.Content + Environment.NewLine;
                 }
             }
-            if(recipe.Image != null && recipe.Image.ImageData.Length > 0)
+            if (recipe.Image != null && recipe.Image.ImageData.Length > 0)
             {
                 ImageBytes = recipe.Image.ImageData;
             }
