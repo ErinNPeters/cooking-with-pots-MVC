@@ -24,5 +24,8 @@ namespace cookingWithPots.Models.Data
         [InverseProperty("Recipe")]
         public Image? Image { get; set; }
 
+        [NotMapped]
+        public bool DeleteImage { get; set; }
+
     }
 }

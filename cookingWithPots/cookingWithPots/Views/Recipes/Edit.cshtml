@@ -58,6 +58,11 @@ else
                     <img alt="@Model.Title" src="data:image;base64,@System.Convert.ToBase64String(Model.ImageBytes)" width="250" height="250" />
                     <br />
                     <br />
+                    <label>Delete Image?</label>
+                    <input asp-for="DeleteImage" type="checkbox">
+                    <br />
+
+                    <br />
                     <label>Replace Image:</label>
                 }
                 else {

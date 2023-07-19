@@ -22,6 +22,7 @@ namespace cookingWithPots.Models.Dto
        // [FileExtensions(Extensions ="jpg,jpeg,png,gif,JPG,JPEG,PNG,GIF", ErrorMessage = "Please use an accepted image extension: jpg, jpeg, png, gif.")]
         public IFormFile? ImageFile { get; set; }
         public byte[]? ImageBytes { get; set; }
+        public bool DeleteImage { get; set; }
 
         public Recipe GetRecipeWithLists()
         {
@@ -33,6 +34,7 @@ namespace cookingWithPots.Models.Dto
                 SlowCooker = SlowCooker,
                 Ingredients = new List<Ingredient>(),
                 Instructions = new List<Instruction>(),
+                DeleteImage = DeleteImage
             };
 
             var ingredientsList = IngredientsNotParsed.Split(new string[] { Environment.NewLine, "\\n", "/n", "\n" }, StringSplitOptions.RemoveEmptyEntries);

@@ -48,7 +48,7 @@ namespace cookingWithPots.Models.Repositories
                     var instructionsToRemove = _context.Instructions.Where(r => r.RecipeId == recipe.RecipeId).ToList();
                     _context.RemoveRange(instructionsToRemove);
 
-                    if(recipe.Image != null && recipe.Image.ImageData.Length > 0)
+                    if(recipe.DeleteImage || (recipe.Image != null && recipe.Image.ImageData.Length > 0))
                     {
                         var imagesToRemove = _context.Image.Where(r => r.RecipeId == recipe.RecipeId).ToList();
                         _context.RemoveRange(imagesToRemove);
