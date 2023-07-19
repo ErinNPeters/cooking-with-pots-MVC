@@ -16,6 +16,8 @@ namespace cookingWithPots.Models.Dto
         public string IngredientsNotParsed { get; set; }
         public string InstructionsNotParsed { get; set; }
 
+        public IFormFile ImageFile { get; set; }
+
         public Recipe GetRecipeWithLists()
         {
             var recipe = new Recipe
